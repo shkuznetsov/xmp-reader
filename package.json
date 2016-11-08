@@ -20,6 +20,13 @@
   "engines": {
     "node": ">= 4.3.2"
   },
+  "keywords": [
+    "jpeg",
+    "jpg",
+    "xmp",
+    "rdf",
+    "metadata"
+  ],
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.1.2"
