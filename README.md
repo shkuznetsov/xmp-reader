@@ -1,4 +1,4 @@
-# xmp-reader
+# xmp-reader  [![NPM version](https://badge.fury.io/js/xmp-reader.svg)](http://badge.fury.io/js/xmp-reader) [![Build Status](https://travis-ci.org/shkuznetsov/xmp-reader.svg?branch=master)](https://travis-ci.org/shkuznetsov/xmp-reader)
 Extracts some commonly used XMP/RDF metadata tags from JPEG files.
 Does not pretend to be a complete metadata management tool, but allows you to extract some information other EXIF-management tools on NPM fail to retrieve.
 Was originally created only to extract a Description field baked into my JPEGs by Google's Picasa.
