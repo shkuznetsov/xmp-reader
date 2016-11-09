@@ -12,6 +12,12 @@ const knownTags = [
 	'dc:description',
 	'xmp:Rating',
 	'MicrosoftPhoto:Rating'
+
+const envelopeTags = [
+	'rdf:Bag',
+	'rdf:Alt',
+	'rdf:Seq',
+	'rdf:li'
 ];
 
 let fs = require('fs');
@@ -33,6 +39,7 @@ let bufferToPromise = (buffer) => new Promise((resolve, reject) => {
 
 				parser.onopentag = function (node) {
 					if (knownTags.indexOf(node.name) != -1) nodeName = node.name;
+					else if (envelopeTags.indexOf(node.name) == -1) nodeName = null;
 				};
 
 				parser.ontext = function(text) {
