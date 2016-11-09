@@ -2,6 +2,9 @@
 
 const markerBegin = '<x:xmpmeta';
 const markerEnd = '</x:xmpmeta>';
+
+const bufferLimit = 65536;
+
 const knownTags = [
 	'MicrosoftPhoto:LastKeywordXMP',
 	'MicrosoftPhoto:LastKeywordIPTC',
@@ -72,8 +75,8 @@ let fileToBuffer = (file) => new Promise((resolve, reject) => {
 	fs.open(file, 'r', (err, fd) => {
 		if (err) reject(err);
 		else {
-			let buffer = new Buffer(65536);
-			fs.read(fd, buffer, 0, 65536, 0, (err, bytesRead, buffer) => {
+			let buffer = new Buffer(bufferLimit);
+			fs.read(fd, buffer, 0, bufferLimit, 0, (err, bytesRead, buffer) => {
 				if (err) reject(err);
 				else resolve(buffer);
 			});
