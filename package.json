@@ -25,6 +25,7 @@
     "jpg",
     "xmp",
     "rdf",
+	"picasa",
     "metadata"
   ],
   "devDependencies": {
