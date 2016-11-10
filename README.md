@@ -4,14 +4,17 @@ Does not pretend to be a complete metadata management tool, but allows you to ex
 Was originally created only to extract a Description field baked into my JPEGs by Google's Picasa.
 
 ## Usage
+
 To install the module add it to your project's ``package.json`` dependencies or install manually running:
 ```
 npm install xmp-reader
 ```
+
 Then pull it in your code:
 ```javascript
 const xmpReader = require('xmp-reader');
 ```
+
 Now you can either feed it a file name:
 ```javascript
 xmpReader.fromFile('/path/to/file.jpg', (err, data) => {
@@ -19,6 +22,7 @@ xmpReader.fromFile('/path/to/file.jpg', (err, data) => {
   else console.log(data);
 });
 ```
+
 Or a buffer:
 ```javascript
 xmpReader.fromBuffer(buffer, (err, data) => {
@@ -26,6 +30,7 @@ xmpReader.fromBuffer(buffer, (err, data) => {
   else console.log(data);
 });
 ```
+
 Both methods above return a promise, you can use that instead of the ``callback``:
 ```javascript
 xmpReader.fromBuffer(buffer).then(
@@ -33,6 +38,29 @@ xmpReader.fromBuffer(buffer).then(
   (err) => console.log(err)
 );
 ```
+
+Output will look something like that, depending on your metadata:
+```javascript
+{
+	"raw": {
+		"MicrosoftPhoto:Rating": "50",
+		"dc:title": "Title",
+		"dc:description": "Title",
+		"dc:creator": "Alexander Kuznetsov",
+		"Iptc4xmpCore:Location": "New York",
+		"MicrosoftPhoto:LastKeywordXMP": ["tag1", "tag2"],
+		"MicrosoftPhoto:LastKeywordIPTC": ["tag1", "tag2"],
+		"xmp:Rating": "3"
+	},
+	"rating": 3,
+	"title": "Title",
+	"description": "Title",
+	"creator": "Alexander Kuznetsov",
+	"location": "New York",
+	"keywords": ["tag1", "tag2"]
+}
+```
+``raw`` property contains vendor-specific tag names.
 
 ## License
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
