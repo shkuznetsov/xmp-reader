@@ -1,6 +1,6 @@
 {
   "name": "xmp-reader",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Extracts basic XMP/RDF metadata from JPEG files",
   "main": "index.js",
   "scripts": {
