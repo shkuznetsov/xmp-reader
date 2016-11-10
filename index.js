@@ -8,10 +8,15 @@ const bufferLimit = 65536;
 const knownTags = [
 	'MicrosoftPhoto:LastKeywordXMP',
 	'MicrosoftPhoto:LastKeywordIPTC',
+	'MicrosoftPhoto:Rating',
+	'Iptc4xmpCore:Location',
+	'xmp:Rating',
 	'dc:title',
 	'dc:description',
-	'xmp:Rating',
-	'MicrosoftPhoto:Rating'
+	'dc:creator',
+	'dc:rights',
+	'cc:attributionName'
+];
 
 const envelopeTags = [
 	'rdf:Bag',
@@ -25,7 +30,7 @@ let fs = require('fs');
 let bufferToPromise = (buffer) => new Promise((resolve, reject) => {
 	if (!Buffer.isBuffer(buffer)) reject('Not a Buffer');
 	else {
-		let data = {};
+		let data = {raw: {}};
 		let offsetBegin = buffer.indexOf(markerBegin);
 		if (offsetBegin) {
 			let offsetEnd = buffer.indexOf(markerEnd);
@@ -46,26 +51,43 @@ let bufferToPromise = (buffer) => new Promise((resolve, reject) => {
 					if (text.trim() != '') switch (nodeName) {
 						case 'MicrosoftPhoto:LastKeywordXMP':
 						case 'MicrosoftPhoto:LastKeywordIPTC':
-							if (!data[nodeName]) data[nodeName] = [];
-							data[nodeName].push(text);
-							if (!data.keywords) data.keywords = [];
-							data.keywords.push(text);
+							if (!data.raw[nodeName]) data.raw[nodeName] = [text];
+							else if (data.raw[nodeName].indexOf(text) == -1) data.raw[nodeName].push(text);
+							if (!data.keywords) data.keywords = [text];
+							else if (data.keywords.indexOf(text) == -1) data.keywords.push(text);
 							break;
 						case 'dc:title':
-							data[nodeName] = text;
+							data.raw[nodeName] = text;
 							data.title = text;
 							break;
 						case 'dc:description':
-							data[nodeName] = text;
+							data.raw[nodeName] = text;
 							data.description = text;
 							break;
 						case 'xmp:Rating':
-							data[nodeName] = text;
+							data.raw[nodeName] = text;
 							data.rating = parseInt(text);
 							break;
 						case 'MicrosoftPhoto:Rating':
-							data[nodeName] = text;
+							data.raw[nodeName] = text;
 							data.rating = Math.floor(parseInt(text) + 12 / 25) + 1;
+							break;
+						case 'Iptc4xmpCore:Location':
+							data.raw[nodeName] = text;
+							data.location = text;
+							break;
+						case 'dc:creator':
+							data.raw[nodeName] = text;
+							data.creator = text;
+							break;
+						case 'cc:attributionName':
+							data.raw[nodeName] = text;
+							data.attribution = text;
+							break;
+						case 'xmpRights:UsageTerms':
+						case 'dc:rights':
+							data.raw[nodeName] = text;
+							data.terms = text;
 							break;
 					}
 				};
