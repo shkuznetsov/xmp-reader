@@ -14,6 +14,7 @@ const knownTags = [
 	'dc:title',
 	'dc:description',
 	'dc:creator',
+	'dc:subject',
 	'dc:rights',
 	'cc:attributionName'
 ];
@@ -79,6 +80,10 @@ let bufferToPromise = (buffer) => new Promise((resolve, reject) => {
 						case 'dc:creator':
 							data.raw[nodeName] = text;
 							data.creator = text;
+							break;
+						case 'dc:subject':
+							data.raw[nodeName] = text;
+							data.subject = text;
 							break;
 						case 'cc:attributionName':
 							data.raw[nodeName] = text;
